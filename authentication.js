@@ -1,171 +1,110 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const session = require("express-session");
-const { MongoClient } = require("mongodb");
+const express = require('express');
+const path = require('path');
 const app = express();
-const ejs = require("ejs");
+const PORT = 3000;
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+const session = require('express-session');
 
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(session({ secret: "mysecret", resave: false, saveUninitialized: true }));
-app.set("view engine", "ejs");
-
-const uri = 'mongodb://localhost:27017';
-const dbName = 'furnitureDB';
-const usersCollectionName = 'users';
-
-async function connectToMongo() {
-    try {
-        const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-        await client.connect();
-        console.log('Connected to MongoDB');
-        return client;
-    } catch (err) {
-        console.error('Error connecting to MongoDB:', err);
-        throw err;
-    }
-}
-
-async function registerUser(username, password, usersCollection) {
-    try {
-        const existingUser = await usersCollection.findOne({ username });
-
-        if (existingUser) {
-            throw new Error("Username already exists. Please choose a different one.");
-        }
-
-        await usersCollection.insertOne({ username, password });
-        console.log(`User ${username} registered successfully.`);
-        return true;
-    } catch (err) {
-        console.error('Error registering user:', err);
-        throw err;
-    }
-}
+app.use(session({
+  secret: 'nimo',
+  resave: false,
+  saveUninitialized: true,
+}));
 
 
 
-app.get("/forgot-password", function (req, res) {
-    res.render("forgot-password");
+
+
+mongoose.connect('mongodb://localhost:27017/FurnitureLagbe', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 });
 
-app.post("/forgot-password", async function (req, res) {
-    const { username } = req.body;
-
-    try {
-        const client = await connectToMongo();
-        const db = client.db(dbName);
-        const usersCollection = db.collection(usersCollectionName);
-
-        const user = await usersCollection.findOne({ username });
-
-        if (user) {
-            // Here you can implement the logic for sending a password reset email.
-            // For simplicity, let's just send a message indicating success.
-            res.send("Password reset instructions sent to your email.");
-        } else {
-            res.send("User not found. Please check the entered username.");
-        }
-    } catch (err) {
-        console.error('Error during forgot password:', err);
-        res.send("Error processing forgot password request.");
-    }
+const userSchema = new mongoose.Schema({
+  username: String,
+  password: String,
 });
 
+const user = mongoose.model('users',userSchema);
 
 
-app.get("/delete", async function (req, res) {
-    try {
-        const client = await connectToMongo();
-        const db = client.db(dbName);
-        const usersCollection = db.collection(usersCollectionName);
-
-        const usernameToDelete = req.session.userId;
-
-        // Delete the user profile from the database
-        await usersCollection.deleteOne({ username: usernameToDelete });
-
-        // Destroy the session after deleting the profile
-        req.session.destroy(function (err) {
-            if (err) {
-                console.error('Error destroying session:', err);
-                res.send("Error deleting profile.");
-            } else {
-                res.redirect("/");
-            }
-        });
-    } catch (err) {
-        console.error('Error during profile deletion:', err);
-        res.send("Error deleting profile.");
-    }
+app.get('/', (req, res) => {
+  res.render('index_home');
 });
 
-app.get("/", function (req, res) {
-    if (req.session && req.session.userId) {
-        res.render("welcome", { username: req.session.userId });
+app.post('/home', async (req, res) => {
+  
+  const { id, password } = req.body;
+  const user = mongoose.model('users',userSchema);
+  try {
+    console.log(id);
+    const customer = await user.findOne({ username:id , password:password});
+    console.log('customer',customer);
+
+    if (customer) {
+ 
+      req.session.user=customer;
+      res.render('index_profile');
     } else {
-        res.render("login", { forgotPasswordLink: "/forgot-password" });
+  
+      res.send('incorrect id and password');
     }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
 });
 
-app.post("/login", async function (req, res) {
-    const inputid = req.body.username;
-    const inputpass = req.body.password;
 
-    try {
-        const client = await connectToMongo();
-        const db = client.db(dbName);
-        const usersCollection = db.collection(usersCollectionName);
-
-        const user = await usersCollection.findOne({
-            username: { $regex: new RegExp("^" + inputid, "i") }, // Case-insensitive match
-            password: inputpass,
-        });
-
-        if (user) {
-            req.session.userId = user.username;
-            res.redirect("/profile");
-        } else {
-            res.send("Invalid ID or password");
-        }
-    } catch (err) {
-        console.error('Error during login:', err);
-        res.send("Error during login.");
-    }
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
 
-app.get("/logout", function (req, res) {
-    req.session.destroy(function (err) {
-        res.redirect("/");
+
+
+app.post('/signup', async (req, res) => {
+  const { requested_username, requested_password, confirmPassword } = req.body;
+      const user_available = await user.findOne({username:requested_username});
+      console.log(user_available);
+      if (user_available){
+        res.send('Id already exists');
+      }
+      const newUser = new user({ username:requested_username, password:requested_password });
+      if(requested_password!=confirmPassword){
+        res.send("Passwords don't match");
+      }
+      else{
+      await newUser.save();
+      }
+    
+      res.send('signup_success');
+  
     });
+
+app.get('/delete-profile', async (req, res) => {
+
+
+  console.log('On it');
+  await user.findOneAndDelete({ username: req.session.user.username });
+  console.log('Successful');
+  res.render('delete');
 });
 
-app.get("/register", function (req, res) {
-    res.render("register");
+app.get('/return to home',(req,res) => {
+  res.render("/");
 });
 
-app.post("/register", async function (req, res) {
-    const { username, password } = req.body;
+app.post('/logout',(req,res) => {
+  req.session.destroy(() => {
+    res.render('index_home'); 
+  });
+})
 
-    try {
-        const client = await connectToMongo();
-        const db = client.db(dbName);
-        const usersCollection = db.collection(usersCollectionName);
-
-        await registerUser(username, password, usersCollection);
-        res.send("Registration successful! You can now <a href='/'>login</a>.");
-    } catch (err) {
-        res.send(`Error registering user: ${err.message}`);
-    }
-});
-
-app.get("/profile", function (req, res) {
-    if (req.session && req.session.userId) {
-        res.render("profile", { username: req.session.userId });
-    } else {
-        res.redirect("/");
-    }
-});
-
-app.listen(3000, function () {
-    console.log("Server is running on port 3000");
-});
+//forget password+module 2
