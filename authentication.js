@@ -34,10 +34,46 @@ const userSchema = new mongoose.Schema({
 
 const user = mongoose.model('users',userSchema);
 
+const productSchema = new mongoose.Schema({
+  _id: String,
+  product_id: Number,
+  product_name: String,
+  product_type: String,
+  product_category_id: Number,
+  product_list_price: Number,
+  product_uom_id: Number,
+  product_pos_categ_id: Number,
+  product_uom_name: String,
+  product_uom_category_name: String,
+  product_category_name: String,
+  product_category_complete_name: String,
+});
+
+const gp_productschema = new mongoose.Schema({
+  gp_id: Number,
+  gp_name: String,
+  gp_image: String,
+  gp_old_price: Number,
+  gp_new_price: Number,
+});
+
+const gp_product = mongoose.model('green_products', gp_productschema);
+
+
+
+
+
+
+app.get('/products', async (req, res)  => {
+  const gp_product_array = await gp_product.find({});
+  console.log(gp_product_array);
+  res.render('products',{gp_product_array});
+});
 
 app.get('/', (req, res) => {
   res.render('index_home');
 });
+
 
 app.post('/home', async (req, res) => {
   
@@ -97,14 +133,13 @@ app.get('/delete-profile', async (req, res) => {
   res.render('delete');
 });
 
-app.get('/return to home',(req,res) => {
-  res.render("/");
-});
+
 
 app.post('/logout',(req,res) => {
   req.session.destroy(() => {
     res.render('index_home'); 
   });
 })
+
 
 //forget password+module 2

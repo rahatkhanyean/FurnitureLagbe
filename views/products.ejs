@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product, Category and Filter</title>
+    <link rel = "stylesheet" href = "css\naheen_style.css">
+
+    <div id="search-container">
+        <input type="text" id="search-input" placeholder="Search products...">
+        <button type="button" onclick="searchProducts()">Search</button>
+    </div>
+
+    <div class="filter-btns">
+        <button type="button" class="filter-btn" id="all">all</button>
+        <button type="button" class="filter-btn" id="new">new</button>
+        <button type="button" class="filter-btn" id="best-sellers">best seller</button>
+        <button type="button" class="filter-btn" id="specials">specials</button>
+    
+        <!-- Add the sorting dropdown -->
+        <label for="sort-by">Sort by:</label>
+        <select id="sort-by">
+            <option value="low-to-high">Price: Low to High</option>
+            <option value="high-to-low">Price: High to Low</option>
+        </select>
+    </div>
+</head>
+
+
+<body>
+    <nav class="navbar">
+        <!-- LOGO -->
+        <div class="logo">FurnitureLagbe</div>
+    
+        <!-- NAVIGATION MENU -->
+        <ul class="nav-links">
+    
+          <!-- USING CHECKBOX HACK -->
+          <input type="checkbox" id="checkbox_toggle" />
+          <label for="checkbox_toggle" class="hamburger">&#9776;</label>
+    
+          <!-- NAVIGATION MENUS -->
+          <div class="menu">
+    
+            <li><a href="/">Home</a></li>
+            <li><a href="#">Products</a></li>
+          </div>
+        </ul>
+      </nav>  
+    <div class = "wrapper">
+
+        <div class = "category-filter">
+            <div class = "container">
+                <div class = "title">
+                    <h1>Products - Categories</h1>  <!--- headline-->
+                </div>
+
+<!-----these are for the buttons---->
+                <div class = "filter-btns">
+                    <button type = "button" class = "filter-btn" id = "all">all</button>
+                    <button type = "button" class = "filter-btn" id = "new">new</button>
+                    <button type = "button" class = "filter-btn" id = "best-sellers">best seller</button>
+                    <button type = "button" class = "filter-btn" id = "specials">specials</button>
+                </div>
+
+                <div class = "filter-items">
+                    <div class = "filter-item all new">
+                        <div class="item-img">
+                            <img src="<%= gp_product_array[0].gp_image %>" alt="Item image">
+                            <span class="discount">20%</span>
+                        </div>
+                        <div class="item-info">
+                            <p><%= gp_product_array[0].gp_name %></p>
+                            <div>
+                                <span class="old-price">BDT <%= gp_product_array[0].gp_old_price %></span>
+                                <span class="new-price">BDT <%= gp_product_array[0].gp_new_price %></span>
+                            </div>
+                            <a href="#" class="add-btn">Add to Cart</a>
+                        </div>
+                    </div>
+                    <!--prod2 for the best seller-->
+                    <div class = "filter-item all best-sellers">
+                        <div class="item-img">
+                            <img src="<%= gp_product_array[1].gp_image %>" alt="Item image">
+                            <span class="discount">20%</span>
+                        </div>
+                        <div class="item-info">
+                            <p> <%= gp_product_array[1].gp_name %></p>
+                            <div>
+                                <span class="old-price">BDT <%= gp_product_array[1].gp_old_price %></span>
+                                <span class="new-price">BDT <%= gp_product_array[1].gp_new_price %></span>
+                            </div>
+                            <a href="#" class="add-btn">Add to Cart</a>
+                        </div>
+                    </div>
+                    <!--prod3 for speials items-->
+                    <div class = "filter-item all specials">
+                        <div class="item-img">
+                            <img src="<%= gp_product_array[2].gp_image %>" alt="Item image">
+                            <span class="discount">20%</span>
+                        </div>
+                        <div class="item-info">
+                            <p>Product Name: <%= gp_product_array[2].gp_name %></p>
+                            <div>
+                                <span class="old-price">BDT <%= gp_product_array[2].gp_old_price %></span>
+                                <span class="new-price">BDT <%= gp_product_array[2].gp_new_price %></span>
+                            </div>
+                            <a href="#" class="add-btn">Add to Cart</a>
+                        </div>
+                    </div>
+                   <!--prod 4 new arrival -->
+                    <div class = "filter-item all new">
+                        <div class="item-img">
+                            <img src="<%= gp_product_array[3].gp_image %>" alt="Item image">
+                            <span class="discount">20%</span>
+                        </div>
+                        <div class="item-info">
+                            <p>Product Name: <%= gp_product_array[3].gp_name %></p>
+                            <div>
+                                <span class="old-price">BDT <%= gp_product_array[3].gp_old_price %></span>
+                                <span class="new-price">BDT <%= gp_product_array[3].gp_new_price %></span>
+                            </div>
+                            <a href="#" class="add-btn">Add to Cart</a>
+                        </div>
+                    </div>
+                     <!--prod 5 for best items-->
+                    <div class = "filter-item all best-sellers">
+                        <div class="item-img">
+                            <img src="<%= gp_product_array[4].gp_image %>" alt="Item image">
+                            <span class="discount">20%</span>
+                        </div>
+                        <div class="item-info">
+                            <p>Product Name: <%= gp_product_array[4].gp_name %></p>
+                            <div>
+                                <span class="old-price">BDT <%= gp_product_array[4].gp_old_price %></span>
+                                <span class="new-price">BDT <%= gp_product_array[4].gp_new_price %></span>
+                            </div>
+                            <a href="#" class="add-btn">Add to Cart</a>
+                        </div>
+                    </div>
+                     <!--prod 6 for speials items-->
+                    <div class = "filter-item all specials">
+                        <div class="item-img">
+                            <img src="<%= gp_product_array[5].gp_image %>" alt="Item image">
+                            <span class="discount">20%</span>
+                        </div>
+                        <div class="item-info">
+                            <p>Product Name: <%= gp_product_array[5].gp_name %></p>
+                            <div>
+                                <span class="old-price">BDT <%= gp_product_array[5].gp_old_price %></span>
+                                <span class="new-price">BDT <%= gp_product_array[5].gp_new_price %></span>
+                            </div>
+                            <a href="#" class="add-btn">Add to Cart</a>
+                        </div>
+                    </div>
+                    <!--prod 7 for new  items-->
+                    <div class = "filter-item all new">
+                        <div class="item-img">
+                            <img src="<%= gp_product_array[6].gp_image %>" alt="Item image">
+                            <span class="discount">20%</span>
+                        </div>
+                        <div class="item-info">
+                            <p>Product Name: <%= gp_product_array[6].gp_name %></p>
+                            <div>
+                                <span class="old-price">BDT <%= gp_product_array[6].gp_old_price %></span>
+                                <span class="new-price">BDT <%= gp_product_array[6].gp_new_price %></span>
+                            </div>
+                            <a href="#" class="add-btn">Add to Cart</a>
+                        </div>
+                    </div>
+                     <!--prod 8 for best items-->
+                    <div class = "filter-item all best-sellers">
+                        <div class="item-img">
+                            <img src="<%= gp_product_array[7].gp_image %>" alt="Item image">
+                            <span class="discount">20%</span>
+                        </div>
+                        <div class="item-info">
+                            <p>Product Name: <%= gp_product_array[7].gp_name %></p>
+                            <div>
+                                <span class="old-price">BDT <%= gp_product_array[7].gp_old_price %></span>
+                                <span class="new-price">BDT <%= gp_product_array[7].gp_new_price %></span>
+                            </div>
+                            <a href="#" class="add-btn">Add to Cart</a>
+                        </div>
+                    </div>
+                    <!--prod 9 for speials items-->
+                    <div class = "filter-item all specials">
+                        <div class="item-img">
+                            <img src="<%= gp_product_array[8].gp_image %>" alt="Item image">
+                            <span class="discount">20%</span>
+                        </div>
+                        <div class="item-info">
+                            <p>Product Name: <%= gp_product_array[8].gp_name %></p>
+                            <div>
+                                <span class="old-price">BDT <%= gp_product_array[8].gp_old_price %></span>
+                                <span class="new-price">BDT <%= gp_product_array[8].gp_new_price %></span>
+                            </div>
+                            <a href="#" class="add-btn">Add to Cart</a>
+                        </div>
+                    </div>
+                    <!--prod 10 for new items-->
+                    <div class = "filter-item all new">
+                        <div class="item-img">
+                            <img src="<%= gp_product_array[9].gp_image %>" alt="Item image">
+                            <span class="discount">20%</span>
+                        </div>
+                        <div class="item-info">
+                            <p>Product Name: <%= gp_product_array[9].gp_name %></p>
+                            <div>
+                                <span class="old-price">BDT <%= gp_product_array[9].gp_old_price %></span>
+                                <span class="new-price">BDT <%= gp_product_array[9].gp_new_price %></span>
+                            </div>
+                            <a href="#" class="add-btn">Add to Cart</a>
+                        </div>
+                    </div>
+                    <!--prod 11 for best items-->
+                    <div class = "filter-item all best-sellers">
+                        <div class="item-img">
+                            <img src="<%= gp_product_array[10].gp_image %>" alt="Item image">
+                            <span class="discount">20%</span>
+                        </div>
+                        <div class="item-info">
+                            <p>Product Name: <%= gp_product_array[10].gp_name %></p>
+                            <div>
+                                <span class="old-price">BDT <%= gp_product_array[10].gp_old_price %></span>
+                                <span class="new-price">BDT <%= gp_product_array[10].gp_new_price %></span>
+                            </div>
+                            <a href="#" class="add-btn">Add to Cart</a>
+                        </div>
+                    </div>
+                    <!--prod 12 for specials items-->
+                    <div class = "filter-item all specials">
+                        <div class="item-img">
+                            <img src="<%= gp_product_array[11].gp_image %>" alt="Item image">
+                            <span class="discount">20%</span>
+                        </div>
+                        <div class="item-info">
+                            <p>Product Name: <%= gp_product_array[11].gp_name %></p>
+                            <div>
+                                <span class="old-price">BDT <%= gp_product_array[11].gp_old_price %></span>
+                                <span class="new-price">BDT <%= gp_product_array[11].gp_new_price %></span>
+                            </div>
+                            <a href="#" class="add-btn">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src = "js/script_naheen.js"></script>  <!-- this is for each button inside shuka ami items gula dekatah partse-->
+</body>
+</html>
+
