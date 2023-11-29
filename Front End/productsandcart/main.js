@@ -156,3 +156,130 @@ function CartBoxComponent(title, price, imgSrc) {
         <i class='bx bxs-trash-alt cart-remove'></i>
     </div>`;
 }
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  const productBoxes = document.querySelectorAll('.product-box');
+
+  filterButtons.forEach(button => {
+      button.addEventListener('click', () => {
+          const category = button.getAttribute('data-category');
+
+          // Toggle the "active" class for filter buttons
+          filterButtons.forEach(btn => {
+              btn.classList.remove('active');
+          });
+          button.classList.add('active');
+
+          // Show all product boxes for the "All" filter
+          if (category === 'all') {
+              productBoxes.forEach(box => {
+                  box.style.display = 'block';
+              });
+          } else {
+              // Hide all product boxes
+              productBoxes.forEach(box => {
+                  box.style.display = 'none';
+              });
+
+              // Show only the product boxes with the selected category
+              const filteredBoxes = document.querySelectorAll(`.product-box[data-category="${category}"]`);
+              filteredBoxes.forEach(box => {
+                  box.style.display = 'block';
+              });
+          }
+      });
+  });
+});
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  const sortButtons = document.querySelectorAll('.sort-btn');
+  const productBoxes = document.querySelectorAll('.product-box');
+
+  filterButtons.forEach(button => {
+      button.addEventListener('click', () => {
+          // Handle category filtering
+          const category = button.getAttribute('data-category');
+
+          filterProducts(category);
+      });
+  });
+
+  sortButtons.forEach(button => {
+      button.addEventListener('click', () => {
+          // Handle sorting
+          const sortType = button.getAttribute('data-sort');
+
+          sortProducts(sortType);
+      });
+  });
+
+  function filterProducts(category) {
+      // Your existing filtering logic here
+
+      // Example: Display only the product boxes with the selected category
+      if (category === 'all') {
+          productBoxes.forEach(box => {
+              box.style.display = 'block';
+          });
+      } else {
+          productBoxes.forEach(box => {
+              const boxCategory = box.getAttribute('data-category');
+              box.style.display = boxCategory === category ? 'block' : 'none';
+          });
+      }
+  }
+
+  function sortProducts(sortType) {
+      // Your sorting logic here
+
+      // Example: Sort product boxes based on price
+      const sortedBoxes = Array.from(productBoxes).sort((a, b) => {
+          const priceA = parseFloat(a.querySelector('.product-price').textContent.slice(1));
+          const priceB = parseFloat(b.querySelector('.product-price').textContent.slice(1));
+
+          if (sortType === 'lowToHigh') {
+              return priceA - priceB;
+          } else {
+              return priceB - priceA;
+          }
+      });
+
+      // Update the order of product boxes in the DOM
+      const shopContent = document.querySelector('.shop-content');
+      shopContent.innerHTML = ''; // Clear existing content
+
+      sortedBoxes.forEach(box => {
+          shopContent.appendChild(box);
+      });
+  }
+});
+
+
+//Search Bar
+document.addEventListener('DOMContentLoaded', function () {
+  // Selectors
+  const searchInput = document.getElementById('searchInput');
+  const searchButton = document.getElementById('searchButton');
+  const productBoxes = document.querySelectorAll('.product-box');
+
+  // Function to filter products based on search term
+  function filterProducts() {
+      const searchTerm = searchInput.value.toLowerCase();
+
+      productBoxes.forEach(box => {
+          const productName = box.querySelector('.product-title').textContent.toLowerCase();
+          const displayStyle = productName.includes(searchTerm) ? 'block' : 'none';
+
+          box.style.display = displayStyle;
+      });
+  }
+
+  // Event listeners
+  searchInput.addEventListener('input', filterProducts);
+
+  searchButton.addEventListener('click', filterProducts);
+});

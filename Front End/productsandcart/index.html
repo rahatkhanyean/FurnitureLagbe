@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products/Cart</title>
+
+    <!-- box icons  -->
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+    <!-- styles  -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- HEADER  -->
+    <header>
+        <!-- NAV  -->
+        <div class="nav container">
+            <a href="#" class="logo"><span>Furniture</span>Lagbe</a>
+            <li><a href="../login/index.html">Home</a></li>
+            <li><a href="../productsandcart/index.html">Products</a></li>
+            <li><a href="../userprofile/index.html" class="nav_link">Profile</a></li>
+            <!-- CART ICON  -->
+            <i class='bx bx-shopping-bag' id="cart-icon"></i>
+
+            <!-- CART  -->
+            <div class="cart">
+                <h2 class="cart-title">Your Cart</h2>
+
+                <!-- CONTENT  -->
+                <div class="cart-content">
+
+
+                </div>
+
+                <!-- TOTAL   -->
+                <div class="total">
+                    <div class="total-title">Total</div>
+                    <div class="total-price">$0</div>
+                </div>
+                <!-- BUY BUTTON  -->
+                <button type="button" class="btn-buy">Buy Now</button>
+                <!-- CART CLOSE  -->
+                <i class='bx bx-x' id="cart-close"></i>
+            </div>
+        </div>
+    </header>
+
+    <div class="modal" id="alertModal">
+        <div class="modal-content">
+          <span class="close" onclick="closeAlertModal()">&times;</span>
+          <p id="alertMessage"></p>
+        </div>
+      </div>
+
+    <!-- SHOP SECTION  -->
+    <section class="shop container">
+        <h2 class="section-title">Shop Products</h2>
+
+        <div class="filters">
+            <!-- Search bar -->
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Search by name">
+                <button id="searchButton">Search</button>
+            </div>
+        
+            <!-- Category buttons -->
+            <button class="filter-btn active" data-category="all">All</button>
+            <button class="filter-btn" data-category="new">New</button>
+            <button class="filter-btn" data-category="best-sellers">Best Sellers</button>
+            <button class="filter-btn" data-category="specials">Specials</button>
+            <!-- Add more filter buttons for each category -->
+        
+            <!-- Sorting buttons -->
+            <button class="sort-btn" data-sort="lowToHigh">Low to High</button>
+            <button class="sort-btn" data-sort="highToLow">High to Low</button>
+        </div>
+
+        <!-- CONTENT  -->
+        <div class="shop-content">
+
+            <!-- BOX 1 -->
+            <div class="product-box" data-category="new">
+                <img src="img/1.jpg" alt="" class="product-img">
+                <h2 class="product-title">Black Bed</h2>
+                <span class="product-price">$300</span>
+                <i class='bx bx-shopping-bag add-cart'></i>
+            </div>
+            <!-- BOX 2 -->
+            <div class="product-box" data-category="best-sellers">
+                <img src="img/2.jpg" alt="" class="product-img">
+                <h2 class="product-title">Black Bed w/ Drawers</h2>
+                <span class="product-price">$595</span>
+                <i class='bx bx-shopping-bag add-cart'></i>
+            </div>
+            <!-- BOX 3 -->
+            <div class="product-box" data-category="specials">
+                <img src="img/3.jpg" alt="" class="product-img">
+                <h2 class="product-title">Steel Bed</h2>
+                <span class="product-price">$295</span>
+                <i class='bx bx-shopping-bag add-cart'></i>
+            </div>
+            <!-- BOX 4 -->
+            <div class="product-box" data-category="new">
+                <img src="img/4.jpg" alt="" class="product-img">
+                <h2 class="product-title">Gray Bed</h2>
+                <span class="product-price">$405</span>
+                <i class='bx bx-shopping-bag add-cart'></i>
+            </div>
+            <!-- BOX 5 -->
+            <div class="product-box" data-category="best-sellers">
+                <img src="img/5.jpg" alt="" class="product-img">
+                <h2 class="product-title">Black Sofa</h2>
+                <span class="product-price">$950</span>
+                <i class='bx bx-shopping-bag add-cart'></i>
+            </div>
+            <!-- BOX 6 -->
+            <div class="product-box" data-category="specials">
+                <img src="img/6.jpg" alt="" class="product-img">
+                <h2 class="product-title">Long Sofa</h2>
+                <span class="product-price">$1400</span>
+                <i class='bx bx-shopping-bag add-cart'></i>
+            </div>
+            <!-- BOX 7 -->
+            <div class="product-box" data-category="new">
+                <img src="img/7.jpg" alt="" class="product-img">
+                <h2 class="product-title">Sofa with Bed</h2>
+                <span class="product-price">$1700</span>
+                <i class='bx bx-shopping-bag add-cart'></i>
+            </div>
+            <!-- BOX 8 -->
+            <div class="product-box" data-category="best-sellers">
+                <img src="img/8.jpg" alt="" class="product-img">
+                <h2 class="product-title">Brown Sofa</h2>
+                <span class="product-price">$1150</span>
+                <i class='bx bx-shopping-bag add-cart'></i>
+            </div>
+            <!-- BOX 9 -->
+            <div class="product-box" data-category="specials">
+                <img src="img/9.jpg" alt="" class="product-img">
+                <h2 class="product-title">White Table</h2>
+                <span class="product-price">$650</span>
+                <i class='bx bx-shopping-bag add-cart'></i>
+            </div>
+            <!-- BOX 10 -->
+            <div class="product-box" data-category="new">
+                <img src="img/10.jpg" alt="" class="product-img">
+                <h2 class="product-title">Black Table</h2>
+                <span class="product-price">$650</span>
+                <i class='bx bx-shopping-bag add-cart'></i>
+            </div>
+            <!-- BOX 11 -->
+            <div class="product-box" data-category="best-sellers">
+                <img src="img/11.jpg" alt="" class="product-img">
+                <h2 class="product-title">White Table without Drawers</h2>
+                <span class="product-price">$510</span>
+                <i class='bx bx-shopping-bag add-cart'></i>
+            </div>
+            <!-- BOX 12 -->
+            <div class="product-box" data-category="specials">
+                <img src="img/12.jpg" alt="" class="product-img">
+                <h2 class="product-title">Olive Table</h2>
+                <span class="product-price">$700</span>
+                <i class='bx bx-shopping-bag add-cart'></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- link js  -->
+    <script src="main.js"></script>
+</body>
+
+</html>
