@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product, Category and Filter</title>
+    <link rel = "stylesheet" href = "style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <!-- LOGO -->
+        <div class="logo">FurnitureLagbe</div>
+    
+        <!-- NAVIGATION MENU -->
+        <ul class="nav-links">
+    
+          <!-- USING CHECKBOX HACK -->
+          <input type="checkbox" id="checkbox_toggle" />
+          <label for="checkbox_toggle" class="hamburger">&#9776;</label>
+    
+          <!-- NAVIGATION MENUS -->
+          <div class="menu">
+    
+            <li><a href="/">Home</a></li>
+            <li><a href="/">Products</a></li>
+            <li><a href="/">Sales</a></li>
+            <li><a href="/">About</a></li>
+            <li><a href="/">Login/Registration</a></li>
+          </div>
+        </ul>
+      </nav>  
+    <div class = "wrapper">
+
+        <div class = "category-filter">
+            <div class = "container">
+                <div class = "title">
+                    <h1>Products - Categories</h1>  <!--- headline-->
+                </div>
+
+<!-----these are for the buttons---->
+                <div class = "filter-btns">
+                    <button type = "button" class = "filter-btn" id = "all">all</button>
+                    <button type = "button" class = "filter-btn" id = "new">new</button>
+                    <button type = "button" class = "filter-btn" id = "best-sellers">best seller</button>
+                    <button type = "button" class = "filter-btn" id = "specials">specials</button>
+                </div>
+
+                <div class = "filter-items">
+                    <div class = "filter-item all new">
+                        <div class = "item-img"><!--prod1-->
+                            <img src = "images/1.jpg" alt = "Item image">
+                            <span class = "discount">20%</span>
+                        </div>
+                        <div class = "item-info">
+                            <p>Black Bed</p>
+                            <div>
+                                <span class = "old-price">Taka 25000</span>
+                                <span class = "new-price">Taka 16000</span>
+                            </div>
+                            <a href = "#" class ="add-btn">Add to Cart</a>
+                        </div>
+                    </div>
+                    <!--prod2 for the best seller-->
+                    <div class = "filter-item all best-sellers">
+                        <div class = "item-img">
+                            <img src = "images/2.jpg" alt = "Item image">
+                            <span class = "discount">20%</span>
+                        </div>
+                        <div class = "item-info">
+                            <p>Black Bed with Drawers</p>
+                            <div>
+                                <span class = "old-price">Taka 21500</span>
+                                <span class = "new-price">Taka 16700</span>
+                            </div>
+                            <a href = "#" class ="add-btn">Add to Cart</a>
+                        </div>
+                    </div>
+                    <!--prod3 for speials items-->
+                    <div class = "filter-item all specials">
+                        <div class = "item-img">
+                            <img src = "images/3.jpg" alt = "Item image">
+                            <span class = "discount">20%</span>
+                        </div>
+                        <div class = "item-info">
+                            <p>Steel Bed</p>
+                            <div>
+                                <span class = "old-price">Taka 20050</span>
+                                <span class = "new-price">Taka 10700</span>
+                            </div>
+                            <a href = "#" class ="add-btn">Add to Cart</a>
+                        </div>
+                    </div>
+                   <!--prod 4 new arrival -->
+                    <div class = "filter-item all new">
+                        <div class = "item-img">
+                            <img src = "images/4.jpg" alt = "Item image">
+                            <span class = "discount">20%</span>
+                        </div>
+                        <div class = "item-info">
+                            <p>Gray Bed</p>
+                            <div>
+                                <span class = "old-price">Taka 28050</span>
+                                <span class = "new-price">Taka 16070</span>
+                            </div>
+                            <a href = "#" class ="add-btn">Add to Cart</a>
+                        </div>
+                    </div>
+                     <!--prod 5 for best items-->
+                    <div class = "filter-item all best-sellers">
+                        <div class = "item-img">
+                            <img src = "images/5.jpg" alt = "Item image">
+                            <span class = "discount">20%</span>
+                        </div>
+                        <div class = "item-info">
+                            <p>Black Sofa</p>
+                            <div>
+                                <span class = "old-price">Taka 20050</span>
+                                <span class = "new-price">Taka 16070</span>
+                            </div>
+                            <a href = "#" class ="add-btn">Add to Cart</a>
+                        </div>
+                    </div>
+                     <!--prod 6 for speials items-->
+                    <div class = "filter-item all specials">
+                        <div class = "item-img">
+                            <img src = "images/6.jpg" alt = "Item image">
+                            <span class = "discount">20%</span>
+                        </div>
+                        <div class = "item-info">
+                            <p>Long Sofa</p>
+                            <div>
+                                <span class = "old-price">Taka 20050</span>
+                                <span class = "new-price">Taka 16070</span>
+                            </div>
+                            <a href = "#" class ="add-btn">Add to Cart</a>
+                        </div>
+                    </div>
+                    <!--prod 7 for new  items-->
+                    <div class = "filter-item all new">
+                        <div class = "item-img">
+                            <img src = "images/7.jpg" alt = "Item image">
+                            <span class = "discount">20%</span>
+                        </div>
+                        <div class = "item-info">
+                            <p>Sofa with Bed</p>
+                            <div>
+                                <span class = "old-price">Taka 20550</span>
+                                <span class = "new-price">Taka 16570</span>
+                            </div>
+                            <a href = "#" class ="add-btn">Add to Cart</a>
+                        </div>
+                    </div>
+                     <!--prod 8 for best items-->
+                    <div class = "filter-item all best-sellers">
+                        <div class = "item-img">
+                            <img src = "images/8.jpg" alt = "Item image">
+                            <span class = "discount">20%</span>
+                        </div>
+                        <div class = "item-info">
+                            <p>Brown Sofa</p>
+                            <div>
+                                <span class = "old-price">Taka 20550</span>
+                                <span class = "new-price">Taka 16570</span>
+                            </div>
+                            <a href = "#" class ="add-btn">Add to Cart</a>
+                        </div>
+                    </div>
+                    <!--prod 9 for speials items-->
+                    <div class = "filter-item all specials">
+                        <div class = "item-img">
+                            <img src = "images/9.jpg" alt = "Item image">
+                            <span class = "discount">20%</span>
+                        </div>
+                        <div class = "item-info">
+                            <p>White Table</p>
+                            <div>
+                                <span class = "old-price">Taka 20550</span>
+                                <span class = "new-price">Taka 16570</span>
+                            </div>
+                            <a href = "#" class ="add-btn">Add to Cart</a>
+                        </div>
+                    </div>
+                    <!--prod 10 for new items-->
+                    <div class = "filter-item all new">
+                        <div class = "item-img">
+                            <img src = "images/10.jpg" alt = "Item image">
+                            <span class = "discount">20%</span>
+                        </div>
+                        <div class = "item-info">
+                            <p>Black Table </p>
+                            <div>
+                                <span class = "old-price">Taka 20550</span>
+                                <span class = "new-price">Taka 16570</span>
+                            </div>
+                            <a href = "#" class ="add-btn">Add to Cart</a>
+                        </div>
+                    </div>
+                    <!--prod 11 for best items-->
+                    <div class = "filter-item all best-sellers">
+                        <div class = "item-img">
+                            <img src = "images/11.jpg" alt = "Item image">
+                            <span class = "discount">20%</span>
+                        </div>
+                        <div class = "item-info">
+                            <p>White Table without Drawers</p>
+                            <div>
+                                <span class = "old-price">Taka 20550</span>
+                                <span class = "new-price">Taka 16570</span>
+                            </div>
+                            <a href = "#" class ="add-btn">Add to Cart</a>
+                        </div>
+                    </div>
+                    <!--prod 12 for specials items-->
+                    <div class = "filter-item all specials">
+                        <div class = "item-img">
+                            <img src = "images/12.jpg" alt = "Item image">
+                            <span class = "discount">20%</span>
+                        </div>
+                        <div class = "item-info">
+                            <p>Olive Table</p>
+                            <div>
+                                <span class = "old-price">Taka 20550</span>
+                                <span class = "new-price">Taka 16570</span>
+                            </div>
+                            <a href = "#" class ="add-btn">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src = "script.js"></script>  <!-- this is for each button inside shuka ami items gula dekatah partse-->
+</body>
+</html>
