@@ -67,11 +67,11 @@ const gp_product = mongoose.model('green_products', gp_productschema);
 app.get('/products', async (req, res)  => {
   const gp_product_array = await gp_product.find({});
   console.log(gp_product_array);
-  res.render('products',{gp_product_array});
+  res.render('product_module3',{gp_product_array});
 });
 
 app.get('/', (req, res) => {
-  res.render('index_home');
+  res.render('login_module3');
 });
 
 
