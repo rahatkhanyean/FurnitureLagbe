@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Custom CSS file link -->
+    <link rel="stylesheet" href="css\Orderanddelivery.css">
+
+    <style>
+        /* Additional Styles ... */
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <form action="/submitOrder" method="post" enctype="application/x-www-form-urlencoded">
+            <div class="row">
+                <div class="col">
+                    <h3 class="title">Delivery Management</h3>
+                    
+                    <div class="inputBox double-size">
+                        <span>Full Name:</span>
+                        <input type="text" placeholder="" name="fullName">
+                    </div>
+                    <div class="inputBox double-size">
+                        <span>Email:</span>
+                        <input type="text" placeholder="" name="email">
+                    </div>
+                    <div class="inputBox double-size">
+                        <span>Address:</span>
+                        <input type="text" placeholder="" name="address">
+                    </div>
+                </div>
+    
+                <div class="col">
+                    <h3 class="title">Order Management</h3>
+    
+                    <div id="orderedProducts">
+                        <div class="product-row">
+                            <div class="inputBox">
+                                <input type="text" placeholder="Product Name" name="productName[]">
+                            </div>
+                            <div class="inputBox">
+                                <input type="number" placeholder="Price" oninput="calculateTotalAmount()" name="price[]">
+                            </div>
+                            <div class="inputBox quantity-form">
+                                <input type="number" placeholder="Quantity" oninput="calculateTotalAmount()" name="quantity[]">
+                            </div>
+                        </div>
+                    </div>
+    
+                    <button type="button" class="icon-button add-product" onclick="addProductInput()">+</button>
+                    <button type="button" class="icon-button remove-product" onclick="removeProductInput()">-</button>
+    
+                    <div class="inputBox">
+                        <span>Customize Order:</span>
+                        <input type="text" placeholder="" name="customizeOrder">
+                    </div>
+    
+                    <div class="inputBox">
+                        <span>Show Amount:</span>
+                        <span id="showAmount">0</span>
+                    </div>
+                </div>
+            </div>
+            <input type="submit" value="Confirm Order" class="submit-btn">
+        </form>
+    </div>
+    
+
+<script>
+    function addProductInput() {
+        const orderedProductsDiv = document.getElementById('orderedProducts');
+        const newProductRow = document.createElement('div');
+        newProductRow.className = 'product-row';
+        newProductRow.innerHTML = `
+            <div class="inputBox">
+                <input type="text" placeholder="Product Name">
+            </div>
+            <div class="inputBox">
+                <input type="number" placeholder="Price" oninput="calculateTotalAmount()">
+            </div>
+            <div class="inputBox quantity-form">
+                <input type="number" placeholder="Quantity" oninput="calculateTotalAmount()">
+            </div>
+        `;
+        orderedProductsDiv.appendChild(newProductRow);
+        calculateTotalAmount();
+    }
+
+    function removeProductInput() {
+        const orderedProductsDiv = document.getElementById('orderedProducts');
+        const productRows = orderedProductsDiv.getElementsByClassName('product-row');
+        if (productRows.length > 1) {
+            orderedProductsDiv.removeChild(productRows[productRows.length - 1]);
+            calculateTotalAmount();
+        }
+    }
+
+    function calculateTotalAmount() {
+        const productRows = document.getElementsByClassName('product-row');
+        let total = 0;
+        for (let i = 0; i < productRows.length; i++) {
+            const priceInput = productRows[i].querySelector('.inputBox input[type="number"]');
+            const quantityInput = productRows[i].querySelector('.quantity-form input[type="number"]');
+            const price = priceInput.value ? parseFloat(priceInput.value) : 0;
+            const quantity = quantityInput.value ? parseFloat(quantityInput.value) : 1;
+            total += price * quantity;
+        }
+        document.getElementById('showAmount').innerText = total;
+    }
+</script>
+
+</body>
+</html>
