@@ -57,6 +57,20 @@ const gp_productschema = new mongoose.Schema({
   gp_new_price: Number,
 });
 
+const orderanddeliveryschema=new mongoose.Schema({
+  name: String,
+  email: String,
+  address: String,
+  product: String,
+  Price: Number,
+  Quantity: Number, 
+  Customize_Order: String,
+
+
+});
+
+const orderanddelivery= mongoose.model('delivery and order management',orderanddeliveryschema);
+
 const gp_product = mongoose.model('green_products', gp_productschema);
 
 
@@ -70,27 +84,31 @@ app.get('/products', async (req, res)  => {
   res.render('product_module3',{gp_product_array});
 });
 
+
+
 app.get('/', (req, res) => {
   res.render('login_module3');
 });
 
 
-app.post('/home', async (req, res) => {
-  
-  const { id, password } = req.body;
-  const user = mongoose.model('users',userSchema);
-  try {
-    console.log(id);
-    const customer = await user.findOne({ username:id , password:password});
-    console.log('customer',customer);
+app.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+  const user = mongoose.model('users', userSchema);
 
-    if (customer) {
- 
-      req.session.user=customer;
-      res.render('index_profile');
+  try {
+    const loggedInUser = await user.findOne({ username: email, password: password });
+
+    if (loggedInUser) {
+
+      if (loggedInUser.username === 'admin@gmail.com' && loggedInUser.password === 'av') {
+        req.session.user = loggedInUser;
+        res.render('admin'); 
+      } else {
+        req.session.user = loggedInUser;
+        res.render('index_profile'); 
+      }
     } else {
-  
-      res.send('incorrect id and password');
+      res.send('Incorrect email or password');
     }
   } catch (error) {
     console.error(error);
@@ -142,4 +160,117 @@ app.post('/logout',(req,res) => {
 })
 
 
-//forget password+module 2
+
+app.get('/admin', async (req, res) => {
+  const gp_product_array = await gp_product.find({});
+
+  res.render('admin',{gp_product_array});
+});
+
+
+app.get('/deleteProduct/:productId', async (req, res) => {
+  const productId = req.params.productId;
+
+  try {
+
+    const deletedProduct = await gp_product.findOneAndDelete({ gp_id: productId });
+
+    if (deletedProduct) {
+      console.log(`Product with ID ${productId} deleted successfully`);
+
+      res.redirect('/admin');
+    } else {
+      console.log(`Product with ID ${productId} not found`);
+     
+      res.redirect('/errorPage');
+    }
+  } catch (error) {
+    console.error(`Error deleting product with ID ${productId}: ${error}`);
+    
+    res.redirect('/errorPage');
+  }
+});
+
+app.post('/addProduct', async (req, res) => {
+  try {
+    const { productName, unitPrice, quantity, productID } = req.body;
+
+   
+    const existingProduct = await gp_product.findOne({ gp_id: productID });
+
+    if (existingProduct) {
+      console.log(`Product ID ${productID} already exists. Try with a different product ID.`);
+      return res.status(400).render('error', { message: 'Product ID already exists. Try with a different product ID.' });
+    } else {
+      console.log(`Adding new product - ID: ${productID}, Name: ${productName}, Quantity: ${quantity}, Unit Price: ${unitPrice}`);
+      
+      
+      const newProduct = new gp_product({
+        gp_id: productID,
+        gp_image: 'images/5.jpg',
+        gp_name: productName,
+        gp_itemsSold: quantity,
+        gp_old_price: 16550,
+        gp_new_price: unitPrice,
+      });
+
+      await newProduct.save();
+
+      console.log(`New product added successfully.`);
+      return res.redirect('/admin'); 
+    }
+  } catch (error) {
+    console.error('Error adding product:', error);
+    res.render('internal server error'); 
+  }
+});
+
+app.get('/Orderanddelivery', async(req,res) => {
+  console.log('hi')
+  res.render('Orderanddelivery');
+});
+
+app.post('/editProduct', async (req, res) => {
+  const productId = req.body.id;
+  console.log(productId);
+
+  try {
+    
+    const product = await gp_product.findOne({gp_id:productId});
+    console.log(product);
+   
+    product.gp_name = req.body.name;
+    product.gp_new_price = req.body.price;
+    product.gp_image = req.body.image;
+
+    await product.save();
+    
+
+    res.redirect('/admin');
+  } catch (error) {
+    console.error(error);
+  }
+});
+
+
+app.post('/submitOrder', async(req, res) => {
+  const fullName = req.body.fullName;
+  const email = req.body.email;
+  const address = req.body.address;
+  const productNames = req.body['productName[]'];
+  const prices = req.body['price[]'];
+  const quantities = req.body['quantity[]'];
+  const customizeOrder = req.body.customizeOrder;
+
+  const newOrder = new orderanddelivery({   name: fullName,
+    email: email,
+    address: address,
+    product: productNames,
+    Price: prices,
+    Quantity: quantities, 
+    Customize_Order: customizeOrder, });
+  console.log(newOrder);
+  await newOrder.save();
+ 
+  res.send('Order submitted successfully!');
+});
