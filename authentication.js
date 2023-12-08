@@ -74,15 +74,15 @@ const orderanddelivery= mongoose.model('delivery and order management',orderandd
 const gp_product = mongoose.model('green_products', gp_productschema);
 
 
-
-
-
-
-app.get('/products', async (req, res)  => {
-  const gp_product_array = await gp_product.find({});
-  console.log(gp_product_array);
-  res.render('product_module3',{gp_product_array});
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
+
+
+
+
+
+//=======================================================================================Module 1======================================================================
 
 
 
@@ -116,10 +116,6 @@ app.post('/login', async (req, res) => {
   }
 });
 
-
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
 
 
 
@@ -159,8 +155,15 @@ app.post('/logout',(req,res) => {
   });
 })
 
+//===================================================================================Module 2+3=============================================================================
+app.get('/products', async (req, res)  => {
+  const gp_product_array = await gp_product.find({});
+  console.log(gp_product_array);
+  res.render('product_module3',{gp_product_array});
+});
 
 
+//=================================================================================Module 4======================================================================================
 app.get('/admin', async (req, res) => {
   const gp_product_array = await gp_product.find({});
 
@@ -178,7 +181,7 @@ app.get('/deleteProduct/:productId', async (req, res) => {
     if (deletedProduct) {
       console.log(`Product with ID ${productId} deleted successfully`);
 
-      res.redirect('/admin');
+      res.redirect('Module 4/admin');
     } else {
       console.log(`Product with ID ${productId} not found`);
      
@@ -217,7 +220,7 @@ app.post('/addProduct', async (req, res) => {
       await newProduct.save();
 
       console.log(`New product added successfully.`);
-      return res.redirect('/admin'); 
+      return res.redirect('Module 4\admin'); 
     }
   } catch (error) {
     console.error('Error adding product:', error);
@@ -227,7 +230,7 @@ app.post('/addProduct', async (req, res) => {
 
 app.get('/Orderanddelivery', async(req,res) => {
   console.log('hi')
-  res.render('Orderanddelivery');
+  res.render('Module 4\Orderanddelivery');
 });
 
 app.post('/editProduct', async (req, res) => {
