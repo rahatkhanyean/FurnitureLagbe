@@ -230,7 +230,7 @@ app.post('/addProduct', async (req, res) => {
 
 app.get('/Orderanddelivery', async(req,res) => {
   console.log('hi')
-  res.render('Module 4\Orderanddelivery');
+  res.render('Orderanddelivery');
 });
 
 app.post('/editProduct', async (req, res) => {
