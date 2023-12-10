@@ -143,21 +143,24 @@ app.get('/profile', async (req, res) => {
 
 app.post('/signup', async (req, res) => {
   const { requested_username, requested_password, confirmPassword } = req.body;
-      const user_available = await user.findOne({username:requested_username});
-      if (user_available){
-        res.send('Id already exists');
-      }
-      const newUser = new user({ username:requested_username, password:requested_password });
-      if(requested_password!=confirmPassword){
-        res.send("Passwords don't match");
-      }
-      else{
-      await newUser.save();
-      }
-    
-      res.send('signup_success');
-  
-    });
+  console.log(requested_password,confirmPassword);
+
+  const user_available = await user.findOne({ username: requested_username });
+
+  if (user_available) {
+    return res.send('Id already exists');
+  }
+
+  const newUser = new user({ username: requested_username, password: requested_password });
+
+  if (requested_password !== confirmPassword) {
+    return res.send("Passwords don't match");
+  }
+
+  await newUser.save();
+  return res.send('signup_success');
+});
+
 
 app.get('/delete-profile', async (req, res) => {
 

@@ -52,28 +52,26 @@
     </div>
     <!-- Signup Form -->
     <div class="form signup_form">
-      <form action="#">
+      <form action="/signup" method="post">
         <h2>Signup</h2>
         <div class="input_box">
-          <input type="email" placeholder="Enter your email" required />
+          <input type="email" name="requested_username" placeholder="Enter your email" required />
           <i class="uil uil-envelope-alt email"></i>
         </div>
         <div class="input_box">
-          <input type="password" placeholder="Create password" required />
+          <input type="password" name="requested_password" placeholder="Create password" required />
           <i class="uil uil-lock password"></i>
           <i class="uil uil-eye-slash pw_hide"></i>
         </div>
         <div class="input_box">
-          <input type="password" placeholder="Confirm password" required />
+          <input type="password" name="confirmPassword" placeholder="Confirm password" required />
           <i class="uil uil-lock password"></i>
           <i class="uil uil-eye-slash pw_hide"></i>
         </div>
-        <button class="button">Signup Now</button>
+        <button type="submit" class="button">Signup Now</button>
         <div class="login_signup">Already have an account? <a href="#" id="login">Login</a></div>
       </form>
     </div>
-  </div>
-</section>
 
 <script src="js\login_module3.js"></script>
 </body>
