@@ -297,3 +297,15 @@ app.post('/submitOrder', async(req, res) => {
  
   res.send('Order submitted successfully!');
 });
+
+
+const orders = [];
+
+// Handle POST requests to /your-backend-endpoint
+app.post('/your-backend-endpoint', (req, res) => {
+  const items=req.body.itemsAdded;
+
+  const order = { itemsAdded, total };
+  orders.push(order);
+   console.log(items);
+});
