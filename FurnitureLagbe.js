@@ -301,11 +301,16 @@ app.post('/submitOrder', async(req, res) => {
 
 const orders = [];
 
-// Handle POST requests to /your-backend-endpoint
 app.post('/your-backend-endpoint', (req, res) => {
-  const items=req.body.itemsAdded;
+  // Extract the itemsAdded and total from the request body
+  const { itemsAdded, total } = req.body;
 
-  const order = { itemsAdded, total };
-  orders.push(order);
-   console.log(items);
+  // Log the received data
+  console.log('Received itemsAdded:', itemsAdded);
+  console.log('Received total:', total);
+
+  // Perform any necessary processing with itemsAdded and total
+
+  // Send a response back to the client if needed
+  res.json({ message: 'Order received successfully!' });
 });
