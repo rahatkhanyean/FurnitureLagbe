@@ -12,11 +12,7 @@ closeCart.addEventListener("click", () => {
 });
 
 // Start when the document is ready
-if (document.readyState == "loading") {
-  document.addEventListener("DOMContentLoaded", start);
-} else {
-  start();
-}
+document.addEventListener("DOMContentLoaded", start);
 
 // =============== START ====================
 function start() {
@@ -32,21 +28,17 @@ function update() {
 // =============== ADD EVENTS ===============
 function addEvents() {
   // Remove items from cart
-  let cartRemove_btns = document.querySelectorAll(".cart-remove");
-  console.log(cartRemove_btns);
-  cartRemove_btns.forEach((btn) => {
+  document.querySelectorAll(".cart-remove").forEach((btn) => {
     btn.addEventListener("click", handle_removeCartItem);
   });
 
   // Change item quantity
-  let cartQuantity_inputs = document.querySelectorAll(".cart-quantity");
-  cartQuantity_inputs.forEach((input) => {
+  document.querySelectorAll(".cart-quantity").forEach((input) => {
     input.addEventListener("change", handle_changeItemQuantity);
   });
 
   // Add item to cart
-  let addCart_btns = document.querySelectorAll(".add-cart");
-  addCart_btns.forEach((btn) => {
+  document.querySelectorAll(".add-cart").forEach((btn) => {
     btn.addEventListener("click", handle_addCartItem);
   });
 
@@ -59,20 +51,19 @@ function addEvents() {
 let itemsAdded = [];
 
 function handle_addCartItem() {
-  let product = this.parentElement;
-  let title = product.querySelector(".product-title").innerHTML;
-  let price = product.querySelector(".product-price").innerHTML;
-  let imgSrc = product.querySelector(".product-img").src;
-  console.log(title, price, imgSrc);
+  const product = this.parentElement;
+  const title = product.querySelector(".product-title").innerHTML;
+  const price = product.querySelector(".product-price").innerHTML;
+  const imgSrc = product.querySelector(".product-img").src;
 
-  let newToAdd = {
+  const newToAdd = {
     title,
     price,
     imgSrc,
   };
 
   // handle item is already exist
-  if (itemsAdded.find((el) => el.title == newToAdd.title)) {
+  if (itemsAdded.some((el) => el.title === newToAdd.title)) {
     alert("This Item Is Already Exist!");
     return;
   } else {
@@ -80,8 +71,8 @@ function handle_addCartItem() {
   }
 
   // Add product to cart
-  let cartBoxElement = CartBoxComponent(title, price, imgSrc);
-  let newNode = document.createElement("div");
+  const cartBoxElement = CartBoxComponent(title, price, imgSrc);
+  const newNode = document.createElement("div");
   newNode.innerHTML = cartBoxElement;
   const cartContent = cart.querySelector(".cart-content");
   cartContent.appendChild(newNode);
@@ -93,7 +84,7 @@ function handle_removeCartItem() {
   this.parentElement.remove();
   itemsAdded = itemsAdded.filter(
     (el) =>
-      el.title !=
+      el.title !==
       this.parentElement.querySelector(".cart-product-title").innerHTML
   );
 
@@ -124,20 +115,19 @@ function handle_buyOrder() {
 
 // =========== UPDATE & RERENDER FUNCTIONS =========
 function updateTotal() {
-  let cartBoxes = document.querySelectorAll(".cart-box");
+  const cartBoxes = document.querySelectorAll(".cart-box");
   const totalElement = cart.querySelector(".total-price");
   let total = 0;
+
   cartBoxes.forEach((cartBox) => {
-    let priceElement = cartBox.querySelector(".cart-price");
-    let price = parseFloat(priceElement.innerHTML.replace("$", ""));
-    let quantity = cartBox.querySelector(".cart-quantity").value;
+    const priceElement = cartBox.querySelector(".cart-price");
+    const price = parseFloat(priceElement.innerHTML.replace("$", ""));
+    const quantity = cartBox.querySelector(".cart-quantity").value;
     total += price * quantity;
   });
 
   // keep 2 digits after the decimal point
   total = total.toFixed(2);
-  // or you can use also
-  // total = Math.round(total * 100) / 100;
 
   totalElement.innerHTML = "$" + total;
 }
@@ -157,39 +147,63 @@ function CartBoxComponent(title, price, imgSrc) {
     </div>`;
 }
 
+// Your existing filtering and sorting logic
+// ... (No changes made to this part)
+
+//Search Bar
+document.addEventListener("DOMContentLoaded", function () {
+  const searchInput = document.getElementById("searchInput");
+  const searchButton = document.getElementById("searchButton");
+  const productBoxes = document.querySelectorAll(".product-box");
+
+  function filterProducts() {
+    const searchTerm = searchInput.value.toLowerCase();
+
+    productBoxes.forEach((box) => {
+      const productName = box.querySelector(".product-title").textContent.toLowerCase();
+      const displayStyle = productName.includes(searchTerm) ? "block" : "none";
+
+      box.style.display = displayStyle;
+    });
+  }
+
+  searchInput.addEventListener("input", filterProducts);
+  searchButton.addEventListener("click", filterProducts);
+});
+
 
 document.addEventListener('DOMContentLoaded', function () {
   const filterButtons = document.querySelectorAll('.filter-btn');
   const productBoxes = document.querySelectorAll('.product-box');
 
   filterButtons.forEach(button => {
-      button.addEventListener('click', () => {
-          const category = button.getAttribute('data-category');
+    button.addEventListener('click', () => {
+      const category = button.getAttribute('data-category').toLowerCase();
 
-          // Toggle the "active" class for filter buttons
-          filterButtons.forEach(btn => {
-              btn.classList.remove('active');
-          });
-          button.classList.add('active');
-
-          // Show all product boxes for the "All" filter
-          if (category === 'all') {
-              productBoxes.forEach(box => {
-                  box.style.display = 'block';
-              });
-          } else {
-              // Hide all product boxes
-              productBoxes.forEach(box => {
-                  box.style.display = 'none';
-              });
-
-              // Show only the product boxes with the selected category
-              const filteredBoxes = document.querySelectorAll(`.product-box[data-category="${category}"]`);
-              filteredBoxes.forEach(box => {
-                  box.style.display = 'block';
-              });
-          }
+      // Toggle the "active" class for filter buttons
+      filterButtons.forEach(btn => {
+        btn.classList.remove('active');
       });
+      button.classList.add('active');
+
+      // Show all product boxes for the "All" filter
+      if (category === 'all') {
+        productBoxes.forEach(box => {
+          box.style.display = 'block';
+        });
+      } else {
+        // Hide all product boxes
+        productBoxes.forEach(box => {
+          box.style.display = 'none';
+        });
+
+        // Show only the product boxes with the selected category
+        const filteredBoxes = document.querySelectorAll(`.product-box[data-category*="${category}"]`);
+        filteredBoxes.forEach(box => {
+          box.style.display = 'block';
+        });
+      }
+    });
   });
 });
 
@@ -200,66 +214,65 @@ document.addEventListener('DOMContentLoaded', function () {
   const productBoxes = document.querySelectorAll('.product-box');
 
   filterButtons.forEach(button => {
-      button.addEventListener('click', () => {
-          // Handle category filtering
-          const category = button.getAttribute('data-category');
+    button.addEventListener('click', () => {
+      // Handle category filtering
+      const category = button.getAttribute('data-category').toLowerCase();
 
-          filterProducts(category);
-      });
+      filterProducts(category);
+    });
   });
 
   sortButtons.forEach(button => {
-      button.addEventListener('click', () => {
-          // Handle sorting
-          const sortType = button.getAttribute('data-sort');
+    button.addEventListener('click', () => {
+      // Handle sorting
+      const sortType = button.getAttribute('data-sort');
 
-          sortProducts(sortType);
-      });
+      sortProducts(sortType);
+    });
   });
 
   function filterProducts(category) {
-      // Your existing filtering logic here
+    // Your existing filtering logic here
 
-      // Example: Display only the product boxes with the selected category
-      if (category === 'all') {
-          productBoxes.forEach(box => {
-              box.style.display = 'block';
-          });
-      } else {
-          productBoxes.forEach(box => {
-              const boxCategory = box.getAttribute('data-category');
-              box.style.display = boxCategory === category ? 'block' : 'none';
-          });
-      }
+    // Example: Display only the product boxes with the selected category
+    if (category === 'all') {
+      productBoxes.forEach(box => {
+        box.style.display = 'block';
+      });
+    } else {
+      productBoxes.forEach(box => {
+        const boxCategories = box.getAttribute('data-category').split(' ');
+        box.style.display = boxCategories.includes(category) ? 'block' : 'none';
+      });
+    }
   }
 
   function sortProducts(sortType) {
-      // Your sorting logic here
+    // Your sorting logic here
 
-      // Example: Sort product boxes based on price
-      const sortedBoxes = Array.from(productBoxes).sort((a, b) => {
-          const priceA = parseFloat(a.querySelector('.product-price').textContent.slice(1));
-          const priceB = parseFloat(b.querySelector('.product-price').textContent.slice(1));
+    // Example: Sort product boxes based on price
+    const sortedBoxes = Array.from(productBoxes).sort((a, b) => {
+      const priceA = parseFloat(a.querySelector('.product-price').textContent.slice(1));
+      const priceB = parseFloat(b.querySelector('.product-price').textContent.slice(1));
 
-          if (sortType === 'lowToHigh') {
-              return priceA - priceB;
-          } else {
-              return priceB - priceA;
-          }
-      });
+      if (sortType === 'lowToHigh') {
+        return priceA - priceB;
+      } else {
+        return priceB - priceA;
+      }
+    });
 
-      // Update the order of product boxes in the DOM
-      const shopContent = document.querySelector('.shop-content');
-      shopContent.innerHTML = ''; // Clear existing content
+    // Update the order of product boxes in the DOM
+    const shopContent = document.querySelector('.shop-content');
+    shopContent.innerHTML = ''; // Clear existing content
 
-      sortedBoxes.forEach(box => {
-          shopContent.appendChild(box);
-      });
+    sortedBoxes.forEach(box => {
+      shopContent.appendChild(box);
+    });
   }
 });
 
-
-//Search Bar
+// Search Bar
 document.addEventListener('DOMContentLoaded', function () {
   // Selectors
   const searchInput = document.getElementById('searchInput');
@@ -268,18 +281,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Function to filter products based on search term
   function filterProducts() {
-      const searchTerm = searchInput.value.toLowerCase();
+    const searchTerm = searchInput.value.toLowerCase();
 
-      productBoxes.forEach(box => {
-          const productName = box.querySelector('.product-title').textContent.toLowerCase();
-          const displayStyle = productName.includes(searchTerm) ? 'block' : 'none';
+    productBoxes.forEach(box => {
+      const productName = box.querySelector('.product-title').textContent.toLowerCase();
+      const displayStyle = productName.includes(searchTerm) ? 'block' : 'none';
 
-          box.style.display = displayStyle;
-      });
+      box.style.display = displayStyle;
+    });
   }
 
   // Event listeners
   searchInput.addEventListener('input', filterProducts);
-
   searchButton.addEventListener('click', filterProducts);
 });
