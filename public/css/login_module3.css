@@ -45,6 +45,56 @@ img {
     width: 100%;
 }
 
+:root{
+    /* size margin */
+    --top_navbar: 3rem;
+
+    /* color */
+    --primary: #fd4646;
+    --highlight: #fd4646;
+    --font_primary: #02ffee;
+
+    /* fonts */
+    --font-family: 'Poppins', sans-serif;
+    --fonts_default: 1rem;
+    --fonts_hero: 2.25rem;
+    --fonts_title: 2.125rem;
+    --fonts_subtitle: 1.625rem;
+    --fonts_component: 1.125rem;
+    --fonts_footer: 1.25rem;
+    --fonts_copyright: 0.875rem;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-size: var(--fonts_family);
+    scroll-behavior: smooth;
+}
+
+/* hero */
+.textHero{
+    margin-top: 10rem;
+}
+.imageHero{
+    margin-top: 6rem;
+}
+.textHero h1{
+    font-size: var(--fonts_hero);
+    line-height: 3rem;
+    font-weight: 700;
+    color: var(--font_primary);
+}
+.textHero span{
+    color: var(--highlight);
+}
+.textHero p{
+    color: var(--font_primary);
+    font-size: var(--fonts_default);
+    line-height: 1.5rem;
+}
+
 /* Header Styles */
 header {
     position: fixed;
@@ -117,7 +167,7 @@ header {
     left: 0;
     height: 100%;
     width: 100%;
-    background-image: url("bg copy.jpg");
+    background-image: url("fur.jpg");
     background-size: cover;
     background-position: center;
     overflow: hidden;

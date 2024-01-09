@@ -24,6 +24,16 @@
 
 <!-- Home -->
 <section class="home">
+  <div class="container">
+    <div class="row hero">
+      <div class="col-md-5 textHero">
+        <h1>Fill your <span>space</span> at home <br>
+            with <span>stylish furniture</span></h1>
+        <p>The "FurnitureLagbe: A Furniture E-commerce Site" project is dedicated to the creation of a fully functional and user-friendly e-commerce website.</p>
+      </div>
+    </div>
+  </div>
+
   <div class="form_container">
     <i class="uil uil-times form_close"></i>
 
@@ -50,28 +60,29 @@
         <div class="login_signup">Don't have an account? <a href="#" id="signup">Signup</a></div>
       </form>
     </div>
-    <!-- Signup Form -->
-    <div class="form signup_form">
-      <form action="/signup" method="post">
-        <h2>Signup</h2>
-        <div class="input_box">
-          <input type="email" name="requested_username" placeholder="Enter your email" required />
-          <i class="uil uil-envelope-alt email"></i>
-        </div>
-        <div class="input_box">
-          <input type="password" name="requested_password" placeholder="Create password" required />
-          <i class="uil uil-lock password"></i>
-          <i class="uil uil-eye-slash pw_hide"></i>
-        </div>
-        <div class="input_box">
-          <input type="password" name="confirmPassword" placeholder="Confirm password" required />
-          <i class="uil uil-lock password"></i>
-          <i class="uil uil-eye-slash pw_hide"></i>
-        </div>
-        <button type="submit" class="button">Signup Now</button>
-        <div class="login_signup">Already have an account? <a href="#" id="login">Login</a></div>
-      </form>
+   <!-- Signup Form -->
+<div class="form signup_form">
+  <form action="/signup" method="POST"> <!-- Updated action and method -->
+    <h2>Signup</h2>
+    <div class="input_box">
+      <input type="text" name="requested_username" placeholder="Enter your email" required />
+      <i class="uil uil-envelope-alt email"></i>
     </div>
+    <div class="input_box">
+      <input type="password" name="requested_password" placeholder="Create password" required />
+      <i class="uil uil-lock password"></i>
+      <i class="uil uil-eye-slash pw_hide"></i>
+    </div>
+    <div class="input_box">
+      <input type="password" name="confirmPassword" placeholder="Confirm password" required />
+      <i class="uil uil-lock password"></i>
+      <i class="uil uil-eye-slash pw_hide"></i>
+    </div>
+    <button type="submit" class="button">Signup Now</button> <!-- Changed button type to submit -->
+    <div class="login_signup">Already have an account? <a href="#" id="login">Login</a></div>
+  </form>
+</div>
+</section>
 
 <script src="js\login_module3.js"></script>
 </body>

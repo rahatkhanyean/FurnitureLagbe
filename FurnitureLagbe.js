@@ -171,7 +171,37 @@ app.get('/delete-profile', async (req, res) => {
   res.render('delete');
 });
 
+app.post('/change-password', async (req, res) => {
+  const userId = req.session.user.username; 
 
+  try {
+      const curruser = await user.findOne({username:userId});
+      
+      console.log(curruser.password);
+
+      if (!curruser) {
+          return res.status(404).send('User not found');
+      }
+
+      const { oldpassword, newpassword, confirmpassword } = req.body;
+
+      console.log(oldpassword);
+      console.log(newpassword);
+     
+      if (oldpassword !== curruser.password) {
+          return res.status(401).send('Incorrect old password');
+      }
+
+
+      curruser.password = newpassword;
+      await curruser.save();
+
+      res.send('Password changed successfully!');
+  } catch (error) {
+      console.error('Error changing password:', error);
+      res.status(500).send('Internal Server Error');
+  }
+});
 
 app.post('/logout',(req,res) => {
   req.session.destroy(() => {
@@ -204,7 +234,9 @@ app.get('/deleteProduct/:productId', async (req, res) => {
     if (deletedProduct) {
       console.log(`Product with ID ${productId} deleted successfully`);
 
-      res.redirect('Module 4/admin');
+      res.redirect('/admin');
+
+  
     } else {
       console.log(`Product with ID ${productId} not found`);
      
@@ -235,6 +267,7 @@ app.post('/addProduct', async (req, res) => {
         gp_id: productID,
         gp_image: 'images/5.jpg',
         gp_name: productName,
+        category:'best-seller',
         gp_itemsSold: quantity,
         gp_old_price: 16550,
         gp_new_price: unitPrice,
@@ -243,7 +276,7 @@ app.post('/addProduct', async (req, res) => {
       await newProduct.save();
 
       console.log(`New product added successfully.`);
-      return res.redirect('Module 4\admin'); 
+      return res.redirect('admin'); 
     }
   } catch (error) {
     console.error('Error adding product:', error);
@@ -302,18 +335,3 @@ app.post('/submitOrder', async(req, res) => {
 });
 
 
-const orders = [];
-
-app.post('/your-backend-endpoint', (req, res) => {
-  // Extract the itemsAdded and total from the request body
-  const { itemsAdded, total } = req.body;
-
-  // Log the received data
-  console.log('Received itemsAdded:', itemsAdded);
-  console.log('Received total:', total);
-
-  // Perform any necessary processing with itemsAdded and total
-
-  // Send a response back to the client if needed
-  res.json({ message: 'Order received successfully!' });
-});
