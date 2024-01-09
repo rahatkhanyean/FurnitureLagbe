@@ -7,6 +7,10 @@ const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const session = require('express-session');
+const fileUpload = require('express-fileupload');
+app.use(express.urlencoded({ extended: true }));
+app.use(fileUpload());
+
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -17,6 +21,11 @@ app.use(session({
   resave: false,
   saveUninitialized: true,
 }));
+
+app.use((req, res, next) => {
+  res.locals.globalVariable = 1;
+  next();
+});
 
 
 
@@ -250,67 +259,97 @@ app.get('/deleteProduct/:productId', async (req, res) => {
 });
 
 app.post('/addProduct', async (req, res) => {
+  console.log(req.files.productImage);
+
+  
   try {
     const { productName, unitPrice, quantity, productID } = req.body;
 
-   
-    const existingProduct = await gp_product.findOne({ gp_id: productID });
+    if (!req.files || Object.keys(req.files).length === 0) {
+      return res.send('uploading error');
+    }
 
-    if (existingProduct) {
-      console.log(`Product ID ${productID} already exists. Try with a different product ID.`);
-      return res.status(400).render('error', { message: 'Product ID already exists. Try with a different product ID.' });
-    } else {
-      console.log(`Adding new product - ID: ${productID}, Name: ${productName}, Quantity: ${quantity}, Unit Price: ${unitPrice}`);
-      
-      
+    const productImage = req.files.productImage;
+    const imagePath = path.join(__dirname, 'public', 'images', productID + path.extname(productImage.name));
+    const mongodbpath=path.join('images',productID + path.extname(productImage.name));
+
+
+    // Move the uploaded file to the specified path
+    productImage.mv(imagePath, (err) => {
+      if (err) {
+        return res.send('Error uploading image.');
+      }
+
+      console.log(`Image uploaded to: ${imagePath}`);
+
+      // Use imagePath when saving to the database
       const newProduct = new gp_product({
         gp_id: productID,
-        gp_image: 'images/5.jpg',
+        gp_image: mongodbpath,
         gp_name: productName,
-        category:'best-seller',
+        category: 'best-seller',
         gp_itemsSold: quantity,
         gp_old_price: 16550,
         gp_new_price: unitPrice,
       });
 
-      await newProduct.save();
-
-      console.log(`New product added successfully.`);
-      return res.redirect('admin'); 
-    }
+      newProduct.save()
+        .then(() => {
+          console.log(`New product added successfully.`);
+          return res.redirect('admin');
+        })
+        .catch((error) => {
+          console.error('Error adding product:', error);
+          res.render('internal server error');
+        });
+    });
   } catch (error) {
     console.error('Error adding product:', error);
-    res.render('internal server error'); 
+    res.render('internal server error');
   }
 });
-
 app.get('/Orderanddelivery', async(req,res) => {
   console.log('hi')
   res.render('Orderanddelivery');
 });
 
 app.post('/editProduct', async (req, res) => {
+  console.log(req.files);
+  res.locals.globalVariable = res.locals.globalVariable + 1;
+  const updated = res.locals.globalVariable.toString();
   const productId = req.body.id;
-  console.log(productId);
 
   try {
-    
-    const product = await gp_product.findOne({gp_id:productId});
-    console.log(product);
-   
+    const newImage = req.files && req.files.photo;
+
+    if (!newImage) {
+      return res.status(400).send('No file uploaded.');
+    }
+
+    const newPath = path.join(__dirname, "public", "images", productId + " - " + updated + path.extname(newImage.name));
+    const mongodbPath = path.join("images",productId+" - "+updated+path.extname(newImage.name));
+    console.log(newPath);
+
+    const product = await gp_product.findOne({ gp_id: productId });
+
+    if (!product) {
+      return res.status(404).send('Product not found.');
+    }
+
     product.gp_name = req.body.name;
     product.gp_new_price = req.body.price;
-    product.gp_image = req.body.photo;
-    console.log(product.gp_image);
-    await product.save();
-    
+    product.gp_image = mongodbPath;
+
+    newImage.mv(newPath); // Move the uploaded file to the specified path
+
+    product.save();
 
     res.redirect('/admin');
   } catch (error) {
     console.error(error);
+    res.status(500).send('Internal Server Error');
   }
 });
-
 
 app.post('/submitOrder', async(req, res) => {
   const fullName = req.body.fullName;

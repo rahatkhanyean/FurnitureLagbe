@@ -229,7 +229,8 @@
 <div id="addEmployeeModal" class="modal fade">
   <div class="modal-dialog">
     <div class="modal-content">
-      <form action="/addProduct" method="post"> <!-- Specify the correct action and method -->
+      <form action="/addProduct" method="post" enctype="multipart/form-data">
+        <!-- Specify the correct action and method -->
         <div class="modal-header">
           <h4 class="modal-title">Add Product</h4>
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -251,6 +252,10 @@
             <label>Product ID</label>
             <input type="text" class="form-control" name="productID" required>
           </div>
+          <div class="form-group">
+            <label>Upload Image</label>
+            <input type="file" class="form-control" name="productImage" accept="image/*" required>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -264,7 +269,7 @@
 <div id="editEmployeeModal" class="modal fade">
   <div class="modal-dialog">
     <div class="modal-content">
-      <form action="/editProduct" method="post"> <!-- Set the action and method for the form -->
+      <form action="/editProduct" method="post" enctype="multipart/form-data">
         <div class="modal-header">
           <h4 class="modal-title">Edit Product</h4>
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -284,7 +289,7 @@
           </div>
           <div class="form-group">
             <label>New Image</label>
-            <input type="text" class="form-control" name="photo" required>
+            <input type="file" class="form-control" name="photo" accept= "image/*" required>
           </div>
         </div>
         <div class="modal-footer">
